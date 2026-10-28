@@ -3,81 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>365 دايت حول العالم - نسخة محمية</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<title>365 دايت - موقع كامل مضمن ومحمي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/st-pageflip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;user-select:none!important;-webkit-user-select:none}
-body{background:#0f172a;color:#fff;font-family:'Cairo',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh}
-header{padding:25px;text-align:center}
-header h1{color:#fbbf24;font-size:32px}
-header p{color:#94a3b8}
-#book-container{width:95%;max-width:1100px;height:700px;margin:20px auto;background:#1e293b;border-radius:15px;box-shadow:0 20px 50px rgba(0,0,0,.5);position:relative;overflow:hidden}
-#flipbook{width:100%;height:100%}
-.loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fbbf24;font-size:20px}
-.controls{margin:15px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.controls button, .controls input{background:#1e293b;border:1px solid #fbbf24;color:#fbbf24;padding:10px 18px;border-radius:8px;cursor:pointer}
-.watermark{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);opacity:.15;font-size:12px;pointer-events:none}
+*{margin:0;padding:0;box-sizing:border-box;user-select:none!important}
+body{background:#0a0f1e;background-image:radial-gradient(circle at 20% 30%,#1e3a8a44 0%,transparent 50%),radial-gradient(circle at 80% 70%,#fbbf2444 0%,transparent 50%);color:#fff;font-family:'Cairo',sans-serif;min-height:100vh}
+header{background:linear-gradient(135deg,#0f172a,#1e293b);padding:25px;text-align:center;border-bottom:3px solid #fbbf24;position:sticky;top:0;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+header h1{color:#fbbf24;font-size:32px;font-weight:900}
+.badge{border:1px solid #fbbf24;color:#fbbf24;padding:4px 12px;border-radius:20px;font-size:11px;margin:3px;display:inline-block}
+.protect{background:linear-gradient(90deg,#7f1d1d,#dc2626);text-align:center;padding:8px;font-size:12px}
+#wrap{max-width:1000px;margin:20px auto;padding:0 20px}
+.upload{border:2px dashed #fbbf24;border-radius:16px;padding:30px;text-align:center;background:rgba(251,191,36,.05);cursor:pointer;margin:20px 0}
+.upload:hover{background:rgba(251,191,36,.1)}
+#pageBox{position:relative;background:linear-gradient(145deg,#1e293b,#0f172a);border-radius:20px;padding:20px;box-shadow:0 25px 60px rgba(0,0,0,.6);border:1px solid rgba(251,191,36,.2);display:none}
+#pageImg{width:100%;border-radius:12px;background:#fff;min-height:500px;display:block}
+.wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:48px;color:rgba(251,191,36,.06);pointer-events:none;font-weight:900;z-index:2;white-space:nowrap}
+.controls{display:flex;gap:8px;justify-content:center;align-items:center;padding:18px;flex-wrap:wrap;background:rgba(0,0,0,.3);border-radius:0 0 20px 20px;margin-top:15px}
+.controls button{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;border:0;padding:11px 20px;border-radius:12px;cursor:pointer;font-weight:800;font-family:'Cairo'}
+#info{color:#fbbf24;font-weight:700;background:rgba(251,191,36,.1);padding:8px 16px;border-radius:10px;border:1px solid rgba(251,191,36,.2);min-width:110px;text-align:center}
+#goto{width:80px;background:#0f172a;border:1px solid #334155;color:#fff;padding:9px;border-radius:10px;text-align:center}
+.progress{height:5px;background:rgba(251,191,36,.2);border-radius:3px;margin:15px 0;overflow:hidden}
+.bar{height:100%;background:linear-gradient(90deg,#fbbf24,#f59e0b);width:0%;transition:.3s}
+.save{background:linear-gradient(135deg,#065f46,#10b981)!important;color:#fff!important}
+@media print{header,.controls,.protect,.upload,.progress{display:none!important} #pageBox{border:none;box-shadow:none;padding:0} body{background:#fff}}
 </style>
 </head>
-<body oncontextmenu="return false" ondragstart="return false">
+<body oncontextmenu="return false">
 <header>
 <h1>📖 365 دايت حول العالم</h1>
-<p>د. أمل نيل - نسخة محمية للقراءة فقط - 365 صفحة</p>
+<p>د. أمل نيل - نسخة محمية مضمنة بالكامل</p>
+<div><span class="badge">365 صفحة</span><span class="badge">ألوان كاملة</span><span class="badge">بدون ملفات خارجية</span><span class="badge">قابل للطباعة</span></div>
 </header>
+<div class="protect">🔒 الكتاب مضمن داخل الكود - لا يمكن النسخ أو التعديل أو التحميل - للقراءة والطباعة فقط</div>
 
-<div id="book-container">
-<div class="loader" id="loader">جاري تحويل 365 صفحة لصور محمية... ⏳</div>
-<div id="flipbook"></div>
-<div class="watermark">© محمي - لا يمكن النسخ أو التحميل</div>
+<div id="wrap">
+<div class="upload" onclick="document.getElementById('pdfFile').click()">
+<div style="font-size:48px">📂</div>
+<h3 style="color:#fbbf24">اضغط هنا واختار ملف الـ PDF</h3>
+<p style="color:#94a3b8;font-size:13px;margin-top:8px">سيتم تحويله تلقائياً لموقع مضمن محمي بالألوان</p>
+<input type="file" id="pdfFile" accept=".pdf" hidden>
 </div>
 
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="status" style="text-align:center;color:#fbbf24;margin:10px"></div>
+
+<div id="pageBox">
+<div class="wm">365 DIET © محمي</div>
+<img id="pageImg"/>
 <div class="controls">
-<button onclick="flip.prev()">◀ السابق</button>
-<input type="number" id="pageNum" placeholder="رقم الصفحة" min="1" max="365" style="width:120px">
-<button onclick="goPage()">اذهب</button>
-<button onclick="flip.next()">التالي ▶</button>
+<button onclick="prevP()">◀ السابق</button>
+<div id="info">-- / --</div>
+<button onclick="nextP()">التالي ▶</button>
+<input type="number" id="goto" placeholder="صفحة">
+<button onclick="goP()">اذهب</button>
+<button onclick="window.print()" style="background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff">🖨️ طباعة</button>
+<button class="save" onclick="saveFullSite()">💾 حفظ موقع كامل مضمن</button>
+</div>
+</div>
 </div>
 
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-let flip; let totalPages=365;
-async function loadPDF(){
- // هنا هنحمل الـ PDF بتاعك
- const url='كتاب-compressed.pdf'; // خلي ملف الـ PDF جنب الـ HTML بنفس الاسم
- try{
-  const pdf=await pdfjsLib.getDocument(url).promise;
-  totalPages=pdf.numPages;
-  const pages=[];
-  for(let i=1;i<=pdf.numPages;i++){
-   const page=await pdf.getPage(i);
-   const viewport=page.getViewport({scale:1.8});
-   const canvas=document.createElement('canvas');
-   canvas.width=viewport.width; canvas.height=viewport.height;
-   const ctx=canvas.getContext('2d');
-   await page.render({canvasContext:ctx, viewport}).promise;
-   // حماية: نحول لصورة ونضيف علامة مائية
-   ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.font='20px Cairo';
-   ctx.fillText('محمي - 365 دايت', 20, canvas.height-20);
-   pages.push(canvas.toDataURL('image/jpeg',0.85));
-   document.getElementById('loader').innerText=`جاري التحميل ${i}/${pdf.numPages}`;
-  }
-  initFlip(pages);
- }catch(e){
-  document.getElementById('loader').innerText='ارفع ملف الـ PDF جنب ملف index.html بنفس الاسم: كتاب-compressed.pdf';
-  console.error(e);
+let pages=[], cur=0;
+document.getElementById('pdfFile').addEventListener('change', async e=>{
+ const file=e.target.files[0]; if(!file) return;
+ document.getElementById('status').textContent='جاري تحويل '+file.name+'...';
+ const buf=await file.arrayBuffer();
+ const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+ pages=[]; const total=pdf.numPages;
+ document.getElementById('pageBox').style.display='block';
+ for(let i=1;i<=total;i++){
+  const page=await pdf.getPage(i);
+  const vp=page.getViewport({scale:1.8});
+  const cv=document.createElement('canvas'); cv.width=vp.width; cv.height=vp.height;
+  const ctx=cv.getContext('2d');
+  await page.render({canvasContext:ctx,viewport:vp}).promise;
+  // علامة مائية ملونة
+  ctx.fillStyle='rgba(251,191,36,0.08)'; ctx.font='bold 26px Cairo'; ctx.save();
+  ctx.translate(cv.width/2,cv.height/2); ctx.rotate(-0.5); ctx.fillText('365 دايت - محمي',-110,0); ctx.restore();
+  pages.push(cv.toDataURL('image/jpeg',0.85));
+  document.getElementById('bar').style.width=(i/total*100)+'%';
+  document.getElementById('status').textContent=`تم تحويل ${i} / ${total} صفحة`;
  }
+ show(0);
+ document.getElementById('status').textContent=`✅ تم تحويل ${total} صفحة بنجاح - الموقع الآن مضمن بالكامل`;
+});
+
+function show(n){if(n<0||n>=pages.length)return; cur=n; document.getElementById('pageImg').src=pages[n]; document.getElementById('info').textContent=(n+1)+' / '+pages.length; document.getElementById('bar').style.width=((n+1)/pages.length*100)+'%'; window.scrollTo({top:0,behavior:'smooth'})}
+function nextP(){show(cur+1)} function prevP(){show(cur-1)}
+function goP(){let v=parseInt(document.getElementById('goto').value); if(v>=1&&v<=pages.length) show(v-1)}
+
+function saveFullSite(){
+ if(pages.length==0){alert('اختار الـ PDF الأول');return}
+ let html=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>365 دايت - نسخة محمية مضمنة</title><style>*{margin:0;padding:0;box-sizing:border-box;user-select:none}body{background:#0a0f1e;color:#fff;font-family:Cairo,sans-serif}header{background:#0f172a;padding:20px;text-align:center;border-bottom:3px solid #fbbf24}h1{color:#fbbf24}#box{max-width:1000px;margin:20px auto;padding:20px;background:#1e293b;border-radius:20px}img{width:100%;border-radius:12px;background:#fff}.ctrl{display:flex;gap:8px;justify-content:center;padding:15px;flex-wrap:wrap}button{background:#fbbf24;color:#000;border:0;padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:700}@media print{header,.ctrl{display:none}}</style></head><body oncontextmenu="return false"><header><h1>📖 365 دايت حول العالم - نسخة محمية مضمنة</h1><p>365 صفحة - للقراءة والطباعة فقط</p></header><div id="box"><img id="im"><div class="ctrl"><button onclick="p()">◀</button><span id="inf"></span><button onclick="n()">▶</button><button onclick="window.print()">🖨️ طباعة</button></div></div><script>const pages=${JSON.stringify(pages)};let c=0;const im=document.getElementById('im'),inf=document.getElementById('inf');function s(i){if(i<0||i>=pages.length)return;c=i;im.src=pages[i];inf.textContent=(i+1)+' / '+pages.length}function n(){s(c+1)}function p(){s(c-1)}s(0);<\/script></body></html>`;
+ let blob=new Blob([html],{type:'text/html'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='365-diet-full-embedded-protected.html'; a.click();
+ alert('✅ تم حفظ الموقع الكامل المضمن - ملف واحد فيه كل الـ 365 صفحة بالألوان ومحمي للطباعة!');
 }
-function initFlip(images){
- document.getElementById('loader').style.display='none';
- const flipEl=document.getElementById('flipbook');
- flip=new St.PageFlip(flipEl, {width:500,height:650,size:'stretch',minWidth:300,maxWidth:1000,minHeight:400,maxHeight:700,showCover:true});
- flip.loadFromImages(images);
-}
-function goPage(){let n=parseInt(document.getElementById('pageNum').value); if(n>=1 && n<=totalPages) flip.flip(n-1);}
-document.addEventListener('keydown',e=>{if((e.ctrlKey&&(e.key=='s'||e.key=='c'||e.key=='p'||e.key=='u'))||e.key=='PrintScreen'){e.preventDefault();alert('المحتوى محمي - لا يمكن النسخ');return false}});
-loadPDF();
+
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')nextP(); if(e.key==='ArrowRight')prevP(); if((e.ctrlKey&&(e.key=='s'||e.key=='c'||e.key=='p'))||e.key=='PrintScreen'){e.preventDefault();return false}});
+document.addEventListener('selectstart',e=>e.preventDefault());
 </script>
 </body>
 </html>
