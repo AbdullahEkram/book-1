@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>365 دايت حول العالم - نسخة محمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/st-pageflip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;user-select:none!important;-webkit-user-select:none}
+body{background:#0f172a;color:#fff;font-family:'Cairo',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh}
+header{padding:25px;text-align:center}
+header h1{color:#fbbf24;font-size:32px}
+header p{color:#94a3b8}
+#book-container{width:95%;max-width:1100px;height:700px;margin:20px auto;background:#1e293b;border-radius:15px;box-shadow:0 20px 50px rgba(0,0,0,.5);position:relative;overflow:hidden}
+#flipbook{width:100%;height:100%}
+.loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fbbf24;font-size:20px}
+.controls{margin:15px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.controls button, .controls input{background:#1e293b;border:1px solid #fbbf24;color:#fbbf24;padding:10px 18px;border-radius:8px;cursor:pointer}
+.watermark{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);opacity:.15;font-size:12px;pointer-events:none}
+</style>
+</head>
+<body oncontextmenu="return false" ondragstart="return false">
+<header>
+<h1>📖 365 دايت حول العالم</h1>
+<p>د. أمل نيل - نسخة محمية للقراءة فقط - 365 صفحة</p>
+</header>
+
+<div id="book-container">
+<div class="loader" id="loader">جاري تحويل 365 صفحة لصور محمية... ⏳</div>
+<div id="flipbook"></div>
+<div class="watermark">© محمي - لا يمكن النسخ أو التحميل</div>
+</div>
+
+<div class="controls">
+<button onclick="flip.prev()">◀ السابق</button>
+<input type="number" id="pageNum" placeholder="رقم الصفحة" min="1" max="365" style="width:120px">
+<button onclick="goPage()">اذهب</button>
+<button onclick="flip.next()">التالي ▶</button>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+let flip; let totalPages=365;
+async function loadPDF(){
+ // هنا هنحمل الـ PDF بتاعك
+ const url='كتاب-compressed.pdf'; // خلي ملف الـ PDF جنب الـ HTML بنفس الاسم
+ try{
+  const pdf=await pdfjsLib.getDocument(url).promise;
+  totalPages=pdf.numPages;
+  const pages=[];
+  for(let i=1;i<=pdf.numPages;i++){
+   const page=await pdf.getPage(i);
+   const viewport=page.getViewport({scale:1.8});
+   const canvas=document.createElement('canvas');
+   canvas.width=viewport.width; canvas.height=viewport.height;
+   const ctx=canvas.getContext('2d');
+   await page.render({canvasContext:ctx, viewport}).promise;
+   // حماية: نحول لصورة ونضيف علامة مائية
+   ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.font='20px Cairo';
+   ctx.fillText('محمي - 365 دايت', 20, canvas.height-20);
+   pages.push(canvas.toDataURL('image/jpeg',0.85));
+   document.getElementById('loader').innerText=`جاري التحميل ${i}/${pdf.numPages}`;
+  }
+  initFlip(pages);
+ }catch(e){
+  document.getElementById('loader').innerText='ارفع ملف الـ PDF جنب ملف index.html بنفس الاسم: كتاب-compressed.pdf';
+  console.error(e);
+ }
+}
+function initFlip(images){
+ document.getElementById('loader').style.display='none';
+ const flipEl=document.getElementById('flipbook');
+ flip=new St.PageFlip(flipEl, {width:500,height:650,size:'stretch',minWidth:300,maxWidth:1000,minHeight:400,maxHeight:700,showCover:true});
+ flip.loadFromImages(images);
+}
+function goPage(){let n=parseInt(document.getElementById('pageNum').value); if(n>=1 && n<=totalPages) flip.flip(n-1);}
+document.addEventListener('keydown',e=>{if((e.ctrlKey&&(e.key=='s'||e.key=='c'||e.key=='p'||e.key=='u'))||e.key=='PrintScreen'){e.preventDefault();alert('المحتوى محمي - لا يمكن النسخ');return false}});
+loadPDF();
+</script>
+</body>
+</html>
